@@ -5,6 +5,8 @@ base-url:
 logging:
   level:
     com.poc.techvoice.userservice: DEBUG
+audit:
+  user: user-id
 spring:
   jpa:
     hibernate.ddl-auto: update
