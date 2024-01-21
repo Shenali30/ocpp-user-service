@@ -5,6 +5,8 @@ public enum ResponseEnum {
     SUCCESS("00", "Success", "Success"),
     REQUEST_VALIDATION_ERROR("01", "Bad Request", "Incorrect Input"),
     USER_ALREADY_EXISTS("02", "User already exists", "This user already has an existing account"),
+    INVALID_USER("03", "The email address does not exist", "Invalid email address"),
+    INCORRECT_PASSWORD("04", "Password is incorrect", "The entered password is incorrect"),
     INTERNAL_ERROR("99", "Internal Error", "An Error Occurred. Please Contact Administrator");
     private final String code;
     private final String desc;

@@ -7,6 +7,16 @@ logging:
     com.poc.techvoice.userservice: DEBUG
 audit:
   user: user-id
+security:
+  jwt:
+    sign-key: aaASWKddlTRRVMs_WEERANvvapotningu_WANWiresharkqqaOOPQUBE
+    refresh-token-in:
+      millisecond: 14400000 # 4 hours
+    expire-time:
+      access-token:
+        millisecond: 7200000 # 2 hours
+      refresh-token:
+        hour: 4
 spring:
   jpa:
     hibernate.ddl-auto: update

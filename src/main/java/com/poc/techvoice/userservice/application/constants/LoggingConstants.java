@@ -18,4 +18,25 @@ public class LoggingConstants {
     public static final String USER_CREATE_LOG = "USER CREATE LOG | MESSAGE: {} | OPERATION: {}";
     public static final String USER_CREATE_ERROR = "USER CREATE ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
 
+
+    // user login
+    public static final String USER_LOGIN_REQUEST_INITIATED = "USER LOGIN REQUEST INITIATED";
+    public static final String USER_LOGIN_RESPONSE_SENT = "USER LOGIN RESPONSE SENT";
+    public static final String USER_LOGIN_LOG = "USER LOGIN LOG | MESSAGE: {} | OPERATION: {}";
+    public static final String USER_LOGIN_ERROR = "USER LOGIN ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
+
+    public static final String TOKEN_GENERATION_LOG = "TOKEN GENERATION LOG | MESSAGE: {} | OPERATION: {}";
+    public static final String TOKEN_GENERATION_ERROR = "TOKEN GENERATION ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
+
+
+
+    // refresh token
+    public static final String REFRESH_TOKEN_REQUEST_INITIATED = "REFRESH TOKEN REQUEST INITIATED";
+    public static final String REFRESH_TOKEN_RESPONSE_SENT = "REFRESH TOKEN RESPONSE SENT";
+    public static final String REFRESH_TOKEN_LOG = "REFRESH TOKEN LOG | MESSAGE: {} | OPERATION: {}";
+    public static final String REFRESH_TOKEN_ERROR = "REFRESH TOKEN ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
+
+    public static final String TOKEN_LOG = "TOKEN LOG | MESSAGE: {} | OPERATION: {}";
+    public static final String TOKEN_ERROR = "TOKEN ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
+
 }

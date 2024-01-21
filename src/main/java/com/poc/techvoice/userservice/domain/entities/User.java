@@ -25,6 +25,7 @@ public class User extends AuditEntity {
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false, length = 6)
     private Role role;
+    private String activeSessionId;
     private String name;
     private String profileDescription;
     private String countryOfOrigin;
