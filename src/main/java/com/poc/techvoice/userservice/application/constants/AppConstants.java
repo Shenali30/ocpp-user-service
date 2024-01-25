@@ -16,4 +16,6 @@ public class AppConstants {
     public static final String EMAIL = "email";
     public static final String ACTIVE_SESSION_ID = "activeSessionId";
     public static final String BEARER = "Bearer";
+    public static final String USER_DATA = "userData";
+    public static final String VALIDATING_TOKEN = "Validating Token";
 }

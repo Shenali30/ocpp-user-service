@@ -2,10 +2,7 @@ package com.poc.techvoice.userservice.application.exception;
 
 import com.poc.techvoice.userservice.application.constants.AppConstants;
 import com.poc.techvoice.userservice.application.enums.ResponseEnum;
-import com.poc.techvoice.userservice.application.exception.type.BaseException;
-import com.poc.techvoice.userservice.application.exception.type.ForbiddenException;
-import com.poc.techvoice.userservice.application.exception.type.ServerException;
-import com.poc.techvoice.userservice.application.exception.type.ValidationException;
+import com.poc.techvoice.userservice.application.exception.type.*;
 import com.poc.techvoice.userservice.application.validator.RequestEntityInterface;
 import com.poc.techvoice.userservice.domain.exception.DomainException;
 import org.springframework.http.HttpStatus;
@@ -36,6 +33,12 @@ public class RestExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleForbiddenException(ForbiddenException ex) {
         Map<String, Object> responseBody = getErrorResponseBodyForCustomExceptions(ex);
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(responseBody);
+    }
+
+    @ExceptionHandler(UserValidationException.class)
+    public ResponseEntity<Map<String, Object>> handleUserValidationException(UserValidationException ex) {
+        Map<String, Object> responseBody = getErrorResponseBodyForCustomExceptions(ex);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);
     }
 
     @ExceptionHandler(ServerException.class)

@@ -3,6 +3,8 @@ package com.poc.techvoice.userservice.application.controller;
 import com.poc.techvoice.userservice.application.constants.LoggingConstants;
 import com.poc.techvoice.userservice.application.exception.type.ForbiddenException;
 import com.poc.techvoice.userservice.application.exception.type.ServerException;
+import com.poc.techvoice.userservice.application.exception.type.UserValidationException;
+import com.poc.techvoice.userservice.application.transport.request.entities.RefreshTokenRequest;
 import com.poc.techvoice.userservice.application.transport.request.entities.UserLoginRequest;
 import com.poc.techvoice.userservice.application.validator.RequestEntityValidator;
 import com.poc.techvoice.userservice.domain.entities.dto.response.UserTokenResponse;
@@ -25,7 +27,7 @@ public class AuthController extends BaseController {
     private final RequestEntityValidator requestValidator;
     private final AuthService authService;
 
-    @PostMapping("/login")
+    @PostMapping("/sign-in")
     public ResponseEntity<UserTokenResponse> loginUser(@RequestHeader("user-id") String userId,
                                                        @RequestBody UserLoginRequest userLoginRequest,
                                                        HttpServletRequest request) throws ServerException, ForbiddenException, DomainException {
@@ -37,6 +39,22 @@ public class AuthController extends BaseController {
         UserTokenResponse response = authService.loginUser(userLoginRequest);
 
         log.info(LoggingConstants.USER_LOGIN_RESPONSE_SENT);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+    @PostMapping("token/refresh")
+    public ResponseEntity<UserTokenResponse> refreshToken(@RequestHeader("user-id") String userId,
+                                                          @RequestBody RefreshTokenRequest refreshTokenRequest,
+                                                          HttpServletRequest request) throws ServerException, UserValidationException {
+
+        log.info(LoggingConstants.REFRESH_TOKEN_REQUEST_INITIATED);
+        setCurrentUser(request);
+
+        requestValidator.validate(refreshTokenRequest);
+        UserTokenResponse response = authService.refreshToken(refreshTokenRequest);
+
+        log.info(LoggingConstants.REFRESH_TOKEN_RESPONSE_SENT);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
