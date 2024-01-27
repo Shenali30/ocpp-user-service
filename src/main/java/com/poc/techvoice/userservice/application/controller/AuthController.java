@@ -1,0 +1,79 @@
+package com.poc.techvoice.userservice.application.controller;
+
+import com.poc.techvoice.userservice.application.constants.LoggingConstants;
+import com.poc.techvoice.userservice.application.exception.type.ForbiddenException;
+import com.poc.techvoice.userservice.application.exception.type.ServerException;
+import com.poc.techvoice.userservice.application.exception.type.UserValidationException;
+import com.poc.techvoice.userservice.application.transport.request.entities.RefreshTokenRequest;
+import com.poc.techvoice.userservice.application.transport.request.entities.UserLoginRequest;
+import com.poc.techvoice.userservice.application.transport.request.entities.UserLogoutRequest;
+import com.poc.techvoice.userservice.application.validator.RequestEntityValidator;
+import com.poc.techvoice.userservice.domain.entities.dto.response.BaseResponse;
+import com.poc.techvoice.userservice.domain.entities.dto.response.UserTokenResponse;
+import com.poc.techvoice.userservice.domain.exception.DomainException;
+import com.poc.techvoice.userservice.domain.service.AuthService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+
+@Slf4j
+@RestController
+@AllArgsConstructor
+@Tag(name = "Authentication Controller")
+@RequestMapping("${base-url.context}/user")
+public class AuthController extends BaseController {
+
+    private final RequestEntityValidator requestValidator;
+    private final AuthService authService;
+
+    @PostMapping("/sign-in")
+    public ResponseEntity<UserTokenResponse> loginUser(@RequestHeader("user-id") String userId,
+                                                       @RequestBody UserLoginRequest userLoginRequest,
+                                                       HttpServletRequest request) throws ServerException, ForbiddenException, DomainException {
+
+        log.info(LoggingConstants.USER_LOGIN_REQUEST_INITIATED);
+        setCurrentUser(request);
+
+        requestValidator.validate(userLoginRequest);
+        UserTokenResponse response = authService.loginUser(userLoginRequest);
+
+        log.info(LoggingConstants.USER_LOGIN_RESPONSE_SENT);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+    @PostMapping("token/refresh")
+    public ResponseEntity<UserTokenResponse> refreshToken(@RequestHeader("user-id") String userId,
+                                                          @RequestBody RefreshTokenRequest refreshTokenRequest,
+                                                          HttpServletRequest request) throws ServerException, UserValidationException {
+
+        log.info(LoggingConstants.REFRESH_TOKEN_REQUEST_INITIATED);
+        setCurrentUser(request);
+
+        requestValidator.validate(refreshTokenRequest);
+        UserTokenResponse response = authService.refreshToken(refreshTokenRequest);
+
+        log.info(LoggingConstants.REFRESH_TOKEN_RESPONSE_SENT);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/sign-out")
+    public ResponseEntity<BaseResponse> logoutUser(@RequestHeader("user-id") String userId,
+                                                   @RequestBody UserLogoutRequest userLogoutRequest,
+                                                   HttpServletRequest request) throws DomainException, ServerException {
+
+        log.info(LoggingConstants.USER_LOGOUT_REQUEST_INITIATED);
+        setCurrentUser(request);
+
+        requestValidator.validate(userLogoutRequest);
+        BaseResponse response = authService.logoutUser(userLogoutRequest);
+
+        log.info(LoggingConstants.USER_LOGOUT_RESPONSE_SENT);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+}
