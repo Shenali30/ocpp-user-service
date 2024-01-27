@@ -39,4 +39,11 @@ public class LoggingConstants {
     public static final String TOKEN_LOG = "TOKEN LOG | MESSAGE: {} | OPERATION: {}";
     public static final String TOKEN_ERROR = "TOKEN ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
 
+
+    // user logout
+    public static final String USER_LOGOUT_REQUEST_INITIATED = "USER LOGOUT REQUEST INITIATED";
+    public static final String USER_LOGOUT_RESPONSE_SENT = "USER LOGOUT RESPONSE SENT";
+    public static final String USER_LOGOUT_LOG = "USER LOGOUT LOG | MESSAGE: {} | OPERATION: {}";
+    public static final String USER_LOGOUT_ERROR = "USER LOGOUT ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
+
 }

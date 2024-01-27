@@ -6,7 +6,9 @@ import com.poc.techvoice.userservice.application.exception.type.ServerException;
 import com.poc.techvoice.userservice.application.exception.type.UserValidationException;
 import com.poc.techvoice.userservice.application.transport.request.entities.RefreshTokenRequest;
 import com.poc.techvoice.userservice.application.transport.request.entities.UserLoginRequest;
+import com.poc.techvoice.userservice.application.transport.request.entities.UserLogoutRequest;
 import com.poc.techvoice.userservice.application.validator.RequestEntityValidator;
+import com.poc.techvoice.userservice.domain.entities.dto.response.BaseResponse;
 import com.poc.techvoice.userservice.domain.entities.dto.response.UserTokenResponse;
 import com.poc.techvoice.userservice.domain.exception.DomainException;
 import com.poc.techvoice.userservice.domain.service.AuthService;
@@ -55,6 +57,21 @@ public class AuthController extends BaseController {
         UserTokenResponse response = authService.refreshToken(refreshTokenRequest);
 
         log.info(LoggingConstants.REFRESH_TOKEN_RESPONSE_SENT);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/sign-out")
+    public ResponseEntity<BaseResponse> logoutUser(@RequestHeader("user-id") String userId,
+                                                   @RequestBody UserLogoutRequest userLogoutRequest,
+                                                   HttpServletRequest request) throws DomainException, ServerException {
+
+        log.info(LoggingConstants.USER_LOGOUT_REQUEST_INITIATED);
+        setCurrentUser(request);
+
+        requestValidator.validate(userLogoutRequest);
+        BaseResponse response = authService.logoutUser(userLogoutRequest);
+
+        log.info(LoggingConstants.USER_LOGOUT_RESPONSE_SENT);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

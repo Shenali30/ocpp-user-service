@@ -8,9 +8,11 @@ import com.poc.techvoice.userservice.application.exception.type.ServerException;
 import com.poc.techvoice.userservice.application.exception.type.UserValidationException;
 import com.poc.techvoice.userservice.application.transport.request.entities.RefreshTokenRequest;
 import com.poc.techvoice.userservice.application.transport.request.entities.UserLoginRequest;
+import com.poc.techvoice.userservice.application.transport.request.entities.UserLogoutRequest;
 import com.poc.techvoice.userservice.domain.entities.User;
 import com.poc.techvoice.userservice.domain.entities.dto.TokenDto;
 import com.poc.techvoice.userservice.domain.entities.dto.UserDetails;
+import com.poc.techvoice.userservice.domain.entities.dto.response.BaseResponse;
 import com.poc.techvoice.userservice.domain.entities.dto.response.UserTokenResponse;
 import com.poc.techvoice.userservice.domain.enums.TokenType;
 import com.poc.techvoice.userservice.domain.exception.DomainException;
@@ -71,6 +73,31 @@ public class AuthServiceImpl extends UtilityService implements AuthService {
             throw new ServerException(ex.getMessage(), ResponseEnum.INTERNAL_ERROR.getCode(), ResponseEnum.INTERNAL_ERROR.getDisplayDesc());
         }
 
+    }
+
+    @Override
+    public BaseResponse logoutUser(UserLogoutRequest request) throws ServerException, DomainException {
+
+        try {
+            log.debug(LoggingConstants.USER_LOGOUT_LOG, "Logout user: " + request.getEmail(), LoggingConstants.STARTED);
+            User user = userRepository.findByEmail(request.getEmail());
+            if (Objects.nonNull(user)) {
+                user.setActiveSessionId(null);
+                userRepository.save(user);
+
+                log.debug(LoggingConstants.USER_LOGOUT_LOG, "Logout user: " + request.getEmail(), LoggingConstants.ENDED);
+                return getSuccessBaseResponse("User Logged Out Successfully");
+            } else {
+                log.error(LoggingConstants.USER_LOGOUT_ERROR, ResponseEnum.INVALID_USER.getDesc(), ResponseEnum.INVALID_USER.getDesc(), null);
+                throw new DomainException(ResponseEnum.INVALID_USER.getDesc(), ResponseEnum.INVALID_USER.getCode(), ResponseEnum.INVALID_USER.getDisplayDesc());
+            }
+
+        } catch (DomainException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error(LoggingConstants.USER_LOGOUT_ERROR, ex.getMessage(), ResponseEnum.INTERNAL_ERROR.getDesc(), ex.getStackTrace());
+            throw new ServerException(ex.getMessage(), ResponseEnum.INTERNAL_ERROR.getCode(), ResponseEnum.INTERNAL_ERROR.getDisplayDesc());
+        }
     }
 
     @Override
