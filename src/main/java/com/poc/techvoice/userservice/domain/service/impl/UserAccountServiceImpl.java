@@ -6,6 +6,7 @@ import com.poc.techvoice.userservice.application.exception.type.ServerException;
 import com.poc.techvoice.userservice.application.transport.request.entities.UserCreateRequest;
 import com.poc.techvoice.userservice.domain.entities.User;
 import com.poc.techvoice.userservice.domain.entities.dto.response.BaseResponse;
+import com.poc.techvoice.userservice.domain.enums.Channel;
 import com.poc.techvoice.userservice.domain.enums.Role;
 import com.poc.techvoice.userservice.domain.exception.DomainException;
 import com.poc.techvoice.userservice.domain.service.UserAccountService;
@@ -31,11 +32,16 @@ public class UserAccountServiceImpl extends UtilityService implements UserAccoun
             log.debug(LoggingConstants.USER_CREATE_LOG, "Create new user", LoggingConstants.STARTED);
             if (!userRepository.existsByEmail(request.getEmail())) {
 
-                // all new users will be considered as readers at the point of sign-up
+                /*
+                 * all new users will be considered as readers at the point of sign-up
+                 * the notification channel for all new users will be set to email by default
+                 */
+
                 User newUser = User.builder()
                         .email(request.getEmail())
                         .password(passwordService.hash(request.getPassword().toCharArray()))
                         .role(Role.READER)
+                        .notificationChannel(Channel.EMAIL)
                         .build();
 
                 userRepository.save(newUser);
