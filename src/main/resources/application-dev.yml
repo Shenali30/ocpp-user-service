@@ -1,0 +1,34 @@
+server:
+  port: 8080
+base-url:
+  context: /tech-voice
+app:
+  host: localhost:8080
+logging:
+  level:
+    com.poc.techvoice.userservice: INFO
+audit:
+  user: user-id
+security:
+  jwt:
+    sign-key: aaASWKddlTRRVMs_WEERANvvapotningu_WANWiresharkqqaOOPQUBE
+    refresh-token-in:
+      millisecond: 14400000 # 4 hours
+    expire-time:
+      access-token:
+        millisecond: 7200000 # 2 hours
+      refresh-token:
+        hour: 4
+spring:
+  jpa:
+    hibernate.ddl-auto: update
+    generate-ddl: true
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL57Dialect
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://host.docker.internal:3306/tech_voice?createDatabaseIfNotExist=true&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root@123
