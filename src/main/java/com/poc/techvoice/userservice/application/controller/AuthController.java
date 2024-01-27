@@ -12,6 +12,7 @@ import com.poc.techvoice.userservice.domain.entities.dto.response.BaseResponse;
 import com.poc.techvoice.userservice.domain.entities.dto.response.UserTokenResponse;
 import com.poc.techvoice.userservice.domain.exception.DomainException;
 import com.poc.techvoice.userservice.domain.service.AuthService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @RestController
 @AllArgsConstructor
+@Tag(name = "Authentication Controller")
 @RequestMapping("${base-url.context}/user")
 public class AuthController extends BaseController {
 

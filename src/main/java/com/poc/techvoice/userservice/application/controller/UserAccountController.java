@@ -7,6 +7,7 @@ import com.poc.techvoice.userservice.application.validator.RequestEntityValidato
 import com.poc.techvoice.userservice.domain.entities.dto.response.BaseResponse;
 import com.poc.techvoice.userservice.domain.exception.DomainException;
 import com.poc.techvoice.userservice.domain.service.UserAccountService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @AllArgsConstructor
+@Tag(name = "User Account Controller")
 @RequestMapping("${base-url.context}/users")
 public class UserAccountController {
 
